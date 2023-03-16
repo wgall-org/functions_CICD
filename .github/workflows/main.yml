@@ -55,10 +55,11 @@ jobs:
         - name: Install python dependencies
           working-directory: ./scripts 
           run: |
-            echo "${{ secrets.SA_CREDENTIALS }}" > sa_key.json
+            ./generate_creds.sh "${{ secrets.SA_CREDENTIALS }}"
             pip install -r requierments.txt 
         - name: Deploy function 
           working-directory: ./scripts
           run: |
+            cat sa_key.json
             python3 main.py "${{env.reponame}}-${{ env.tag }}"
         
