@@ -3,7 +3,7 @@
 resource "google_cloudfunctions_function" "function" {
   name        = var.project
   description = "Desc"
-  runtime     = "nodejs16"
+  runtime     = "nodejs18"
 
   available_memory_mb   = 128
   source_archive_bucket = "${var.project}"
