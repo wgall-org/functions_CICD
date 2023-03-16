@@ -1,4 +1,3 @@
-from google.cloud import storage
 import os 
 
 def is_bucket_present(bname):
