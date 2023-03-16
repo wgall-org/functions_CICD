@@ -55,7 +55,7 @@ jobs:
         - name: Install python dependencies
           working-directory: ./scripts 
           run: |
-            echo ${{ secrets.SA_CREDENTIALS }} > sa_key.json
+            echo "${{ secrets.SA_CREDENTIALS }}" > sa_key.json
             pip install -r requierments.txt 
         - name: Deploy function 
           working-directory: ./scripts
