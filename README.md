@@ -1,1 +1,1 @@
-# functions_CICD
+# Terraform and scripts for deploying cloud functions on Google Cloud Platform

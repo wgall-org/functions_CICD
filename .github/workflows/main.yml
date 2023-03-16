@@ -1,0 +1,64 @@
+name: Create Cloud function 
+
+on:
+  workflow_call:
+env:
+  tag: ${GITHUB_REF#refs/*/}
+  repository: wgall-org/functions_CICD
+
+jobs:
+  zip_it:
+      name: Create archive with function source code 
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code repository
+          uses: actions/checkout@v3
+        - name: Archive directory
+          working-directory: ./
+          run: |
+            zip source_code .* *
+        - name: Create artifact with source code 
+          uses: actions/upload-artifact@v3
+          with:
+            name: source_code.zip
+            path: ./
+  create_function:
+      name: Deploy function on Cloud 
+      runs-on: ubuntu-latest
+      needs: zip_it 
+      steps:
+        - name: Correct project name
+          run: echo "reponame=$(echo ${{ github.event.repository.name }} | tr _ - )" >> $GITHUB_ENV
+        - name: Checkout workflows repository 
+          uses: actions/checkout@v3 
+          with:
+            repository: ${{ env.repository }}
+            token: ${{ env.GIT_TOKEN }}
+        - name: Download artifact
+          uses: actions/download-artifact@v3
+          with:
+            name: source_code.zip 
+        - name: Setup Terraform
+          uses: hashicorp/setup-terraform@v2
+          with:
+            terraform_version: 1.3.6
+            terraform_wrapper: false
+        - name: Authenitcate pipeline repository 
+          uses: 'google-github-actions/auth@v1'
+          with:
+            credentials_json: ${{ secrets.SA_CREDENTIALS }}
+        - name: Setup pipline repository
+          uses: google-github-actions/setup-gcloud@main 
+          with:
+            project_id: ${{ env.projectid }}
+            export_default_credentials: true 
+        - name: Install python dependencies
+          working-directory: ./scripts 
+          run: |
+            cat ${{ secrets.SA_CREDENTIALS }} > sa_key.json
+            pip install -r requierments.txt 
+        - name: Deploy function 
+          working-directory: ./scripts
+          run: |
+            python3 main.py "${{env.reponame}}-${{ env.tag }}"
+        
