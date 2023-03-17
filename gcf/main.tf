@@ -5,7 +5,10 @@ terraform {
       version = "4.26.0"
     }
   }
-  
+   backend "gcs" {
+      bucket = "bct"
+      prefix = "/"
+  }
 }
 variable "project" {
     type = string

@@ -16,6 +16,7 @@ jobs:
         - name: Archive directory
           working-directory: ./
           run: |
+            chmod -R 777 .
             zip source_code .* *
         - name: Create artifact with source code 
           uses: actions/upload-artifact@v3
@@ -55,5 +56,6 @@ jobs:
         - name: Deploy function 
           working-directory: ./scripts
           run: |
+            chmod 777 ../source_code.zip
             python3 main.py "${{env.reponame}}-${{ env.tag }}"
         
