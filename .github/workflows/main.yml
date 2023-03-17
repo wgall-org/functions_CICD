@@ -27,7 +27,7 @@ jobs:
         - id: 'deploy'
           uses: 'google-github-actions/deploy-cloud-functions@v1'
           with:
-            name: '${{env.reponame}}-${{ env.tag }}'
+            name: "${{env.reponame}}-${{ env.tag }}"
             runtime: 'nodejs16' 
             entry_point: main
             region: europe-central2
