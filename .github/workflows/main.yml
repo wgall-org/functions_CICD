@@ -24,8 +24,11 @@ jobs:
           with:
             project_id: ${{ env.projectid }}
             export_default_credentials: true
+        - name: Check if function is already deployed
+          run: |
+            echo "is_present=$(gcloud functions list | grep ${{ env.project }} | wc -l)" >> $GITHUB_ENV
         - name: Delete previous function 
-          if: ${{ github.run_number != '1'}}
+          if: ${{ env.is_present == '1'}}
           run: |
             gcloud functions delete ${{ env.project }} --region europe-central2 --quiet
         - id: 'deploy'
