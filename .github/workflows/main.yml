@@ -12,7 +12,7 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - name: Correct project name
-          run: echo "reponame=$(echo ${{ github.event.repository.name }} | tr _ - )" >> $GITHUB_ENV
+          run: echo "project=$(echo ${{ github.event.repository.name }}-${{ env.tag }} | tr _ - )" >> $GITHUB_ENV
         - name: Checkout code repository
           uses: actions/checkout@v3
         - name: Authenitcate pipeline repository 
@@ -27,7 +27,7 @@ jobs:
         - id: 'deploy'
           uses: 'google-github-actions/deploy-cloud-functions@v1'
           with:
-            name: "${{env.reponame}}-${{ env.tag }}"
+            name: "${{env.project}}"
             runtime: 'nodejs16' 
             entry_point: main
             region: europe-central2
