@@ -25,7 +25,7 @@ jobs:
             project_id: ${{ env.projectid }}
             export_default_credentials: true
         - name: Delete previous function 
-          if: ${{ github.run_number != "1"}}
+          if: ${{ github.run_number != '1'}}
           run: |
             gcloud functions delete ${{ env.project }} --region europe-central2 --quiet
         - id: 'deploy'
