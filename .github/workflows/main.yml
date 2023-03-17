@@ -41,7 +41,7 @@ jobs:
             credentials: ${{ secrets.SA_CREDENTIALS }}
             source_path: ./
             ingress_settings:  ALLOW_ALL
-            https_trigger_security_level: security_optional
+            https_trigger_security_level: secure_optional
         # - name: Deploy function 
         #   working-directory: ./scripts
         #   run: |
