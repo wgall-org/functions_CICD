@@ -10,7 +10,7 @@ resource "google_cloudfunctions_function" "function" {
   source_archive_object = "source_code.zip"
   trigger_http          = true
   entry_point           = "main"
-  depends_on = ["${google_storage_bucket_object.archive}"]
+  depends_on = [google_storage_bucket_object.archive]
 }
 
 # IAM entry for all users to invoke the function
@@ -21,7 +21,5 @@ resource "google_cloudfunctions_function_iam_member" "invoker" {
 
   role   = "roles/cloudfunctions.invoker"
   member = "allUsers"
-  depends_on = [
-    "${google_storage_bucket_object.archive}"
-  ]
+  depends_on = [google_storage_bucket_object.archive]
 }
