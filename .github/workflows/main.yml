@@ -40,7 +40,7 @@ jobs:
             region: europe-central2
             credentials: ${{ secrets.SA_CREDENTIALS }}
             source_path: ./
-
+            ingress_settings:  ALLOW_ALL
         # - name: Deploy function 
         #   working-directory: ./scripts
         #   run: |
